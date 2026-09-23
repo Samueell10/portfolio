@@ -51,17 +51,39 @@ window.addEventListener('scroll', () => {
   links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
 }, { passive: true });
 
-/* ── Contact form (frontend only – wire to backend/emailjs as needed) ── */
-document.getElementById('contactForm').addEventListener('submit', e => {
+/* ── Contact form — Formspree ── */
+const FORMSPREE_ID = 'mbgjjdzy';
+document.getElementById('contactForm').addEventListener('submit', async e => {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
-  btn.textContent = '✓ ¡Mensaje enviado!';
-  btn.style.background = 'linear-gradient(135deg,#22c55e,#16a34a)';
+  const form = e.target;
+  btn.textContent = 'Enviando...';
   btn.disabled = true;
-  setTimeout(() => {
-    btn.textContent = 'Enviar mensaje →';
-    btn.style.background = '';
-    btn.disabled = false;
-    e.target.reset();
-  }, 3500);
+  try {
+    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form)
+    });
+    if (res.ok) {
+      btn.textContent = '✓ ¡Mensaje enviado!';
+      btn.style.background = 'linear-gradient(135deg,#22c55e,#16a34a)';
+      form.reset();
+      setTimeout(() => {
+        btn.textContent = 'Enviar mensaje →';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 3500);
+    } else {
+      throw new Error();
+    }
+  } catch {
+    btn.textContent = '✗ Error al enviar. Inténtalo de nuevo.';
+    btn.style.background = 'linear-gradient(135deg,#ef4444,#dc2626)';
+    setTimeout(() => {
+      btn.textContent = 'Enviar mensaje →';
+      btn.style.background = '';
+      btn.disabled = false;
+    }, 3500);
+  }
 });
