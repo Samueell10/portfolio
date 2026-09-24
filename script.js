@@ -1,4 +1,3 @@
-/* ── Typed text effect ── */
 const roles = ['Software Engineer', 'QA Automation Engineer', 'Full Stack Developer'];
 let ri = 0, ci = 0, deleting = false;
 const typedEl = document.getElementById('typedEl');
@@ -16,13 +15,11 @@ function type() {
 }
 type();
 
-/* ── Sticky nav shadow ── */
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 20);
 }, { passive: true });
 
-/* ── Burger / mobile menu ── */
 const burger = document.getElementById('burger');
 const navLinks = document.getElementById('navLinks');
 burger.addEventListener('click', () => {
@@ -36,13 +33,11 @@ navLinks.querySelectorAll('a').forEach(a => {
   });
 });
 
-/* ── Scroll reveal ── */
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-/* ── Active nav link ── */
 const sections = document.querySelectorAll('section[id]');
 const links = document.querySelectorAll('.nav-links a');
 window.addEventListener('scroll', () => {
@@ -51,7 +46,6 @@ window.addEventListener('scroll', () => {
   links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
 }, { passive: true });
 
-/* ── Contact form — Formspree ── */
 const FORMSPREE_ID = 'mbgjjdzy';
 document.getElementById('contactForm').addEventListener('submit', async e => {
   e.preventDefault();
